@@ -567,3 +567,9 @@ html[lang=en] .identity-hero-copy{margin-top:35px}@media(max-width:760px){html[l
 
 /* Paired hero logos: stacked on desktop, side by side on mobile. */
 .hero-brand-lockup{position:absolute;right:4.5%;top:14%;width:clamp(220px,23vw,330px);z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px}.hero-td-logo{display:block;width:56%;height:auto;object-fit:contain;filter:drop-shadow(0 4px 14px #0009)}.cinematic-hero .hero-brand-lockup .hero-series-logo{position:static;inset:auto;width:100%;height:auto;flex:none;object-fit:contain}@media(max-width:760px){.hero-brand-lockup{top:calc(73px + 22px + env(safe-area-inset-top,0px));left:6%;right:6%;width:auto;flex-direction:row;justify-content:space-between;align-items:center;gap:20px}.hero-brand-lockup .hero-td-logo{width:clamp(95px,26vw,130px);height:auto}.cinematic-hero .hero-brand-lockup .hero-series-logo{width:clamp(100px,29vw,145px);height:auto}.floating-whatsapp-main{width:50px;height:50px}}
+
+/* Smaller paired logos on phones; desktop sizing stays intact. */
+@media(max-width:760px){.hero-brand-lockup .hero-td-logo{width:clamp(80px,21vw,105px)}.cinematic-hero .hero-brand-lockup .hero-series-logo{width:clamp(82px,23vw,115px)}}
+
+/* Mobile TD monogram: 30% smaller, grouped closely beside the claw logo. */
+@media(max-width:760px){.hero-brand-lockup{justify-content:flex-end;gap:12px}.hero-brand-lockup .hero-td-logo{width:clamp(56px,14.7vw,73.5px)}}
