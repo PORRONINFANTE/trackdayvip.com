@@ -505,3 +505,24 @@ body.no-scroll .floating-whatsapp-main{visibility:hidden}
 
 /* Inline portrait player for the supplied SEMA YouTube Short. */
 .sema-video{margin:38px 0;padding-top:12px;border-top:1px solid var(--line)}.sema-video-player{position:relative;width:min(100%,360px);aspect-ratio:9/16;margin:20px auto 14px;background:#000;border:1px solid #ffffff26;overflow:hidden}.sema-video-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}.sema-video-fallback{display:block;text-align:center;font-size:13px;color:#ff7378;text-decoration:underline;text-underline-offset:4px}
+
+/* Responsive language flags and larger desktop SEMA artwork. */
+.header-language-country{display:none}@media(min-width:761px){.site-header .edition .country-badge{display:none}.header-language-country{display:flex;align-items:center;flex:none}.header-language-country img{display:block;width:30px;height:20px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px #ffffff35}.article-page-layout{grid-template-columns:310px minmax(0,1fr)}.article-sidebar .sema-sidebar-logo{width:100%;max-width:none;margin-bottom:30px}.sema-art .sema-original-logo{width:94%;margin-inline:auto}}
+
+/* Baja 1000: the supplied dark logo sits on a light plaque for legibility. */
+.baja-feature-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:7%;align-items:center}.baja-logo-card{display:grid;place-items:center;background:#eeeae2;padding:30px;border:1px solid #ffffff30}.baja-logo-card img{display:block;width:100%;height:auto;object-fit:contain}.baja-location{font-size:12px;line-height:1.8;letter-spacing:1px;color:var(--muted)}.baja-page .article-sidebar{--gold:#e8c372}.baja-page .article-sidebar .baja-logo-card{margin-bottom:28px;padding:18px}.baja-page .article-body strong{color:var(--gold)}.baja-calendar-event{display:grid;grid-template-columns:280px 1fr;gap:40px;align-items:center;margin-top:60px;padding-top:40px;border-top:1px solid var(--line)}.baja-calendar-event>img{background:#eeeae2;padding:20px;width:100%}@media(max-width:760px){.baja-feature-grid{grid-template-columns:1fr;gap:30px}.baja-logo-card{padding:22px}.baja-page .article-sidebar .baja-logo-card{grid-column:1/-1;width:100%;margin-bottom:10px}.baja-calendar-event{grid-template-columns:1fr;gap:25px}.baja-calendar-event>img{max-width:480px;margin:auto}}
+
+/* Red Line Series identity on the right of the homepage hero. */
+.hero-series-logo{position:absolute;right:4.5%;top:24%;width:clamp(220px,23vw,330px);height:auto;object-fit:contain;z-index:1;filter:drop-shadow(0 5px 18px #0009)}@media(min-width:761px){.cinematic-caption{max-width:calc(100% - clamp(250px,26vw,370px))}.cinematic-caption h1{font-size:clamp(62px,6.3vw,100px)}}@media(max-width:760px){.hero-series-logo{right:6%;top:28px;width:clamp(100px,29vw,145px)}.cinematic-caption{max-width:100%}}
+
+/* Clear the fixed mobile header before placing the hero identity. */
+@media(max-width:760px){.cinematic-hero .hero-series-logo{top:calc(73px + 22px + env(safe-area-inset-top,0px));right:6%;width:clamp(100px,29vw,145px)}}
+
+
+/* Baja logo floats directly on the dark site with a soft silhouette halo. */
+.baja-logo-card,.baja-page .article-sidebar .baja-logo-card{background:transparent;border:0;padding:12px}.baja-logo-card img{filter:drop-shadow(0 0 1px #ffffffe6) drop-shadow(0 0 9px #ffffff59);background:transparent}.baja-feature .baja-logo-card{transition:transform .3s}.baja-feature a.baja-logo-card:hover{transform:translateY(-3px)}
+
+.baja-race-photo{margin:28px 0 34px}.baja-race-photo img{display:block;width:100%;height:auto;border:1px solid #ffffff20}.baja-race-photo figcaption{padding-top:12px;color:var(--muted);font-size:11px;letter-spacing:1.4px;line-height:1.6}
+
+/* Shared Baja treatment preserves red and black while lifting silver details toward white. */
+img[src$="baja-1000-official.webp"]{background:transparent;filter:drop-shadow(0 0 1px #ffffffe6) drop-shadow(0 0 9px #ffffff59)}

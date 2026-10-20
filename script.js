@@ -16,11 +16,13 @@ function normalizeArrows(root=document.body){
 let language='es',filter='all',photoIndex=0,lastFocus=null,detailType=null;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const page=document.body.dataset.page;
-const photos=[{src:'grid',alt:'gridAlt',title:'gallery1',category:'paddock'},{src:'porsche',alt:'porscheAlt',title:'gallery2',category:'track'},{src:'pitlane',alt:'pitlaneAlt',title:'gallery3',category:'paddock'},{src:'convoy',alt:'convoyAlt',title:'gallery4',category:'track'},{src:'hero',alt:'heroAlt',title:'gallery5',category:'track'},{src:'record',alt:'recordAlt',title:'eventGalleryRecord',category:'events'},{src:'circuits',alt:'eventGalleryCircuits',title:'eventGalleryCircuits',category:'events'},{src:'partners',alt:'eventGalleryPartners',title:'eventGalleryPartners',category:'events'},{src:'mini-track',ext:'png',alt:'miniAlt',title:'miniAlt',category:'track'},{src:'lamborghini-paddock',ext:'png',alt:'lamboAlt',title:'lamboAlt',category:'paddock'},{src:'porsche-track',ext:'png',alt:'porscheTrackAlt',title:'porscheTrackAlt',category:'track'}];
+const photos=[{src:'grid',alt:'gridAlt',title:'gallery1',category:'paddock'},{src:'porsche',alt:'porscheAlt',title:'gallery2',category:'track'},{src:'pitlane',alt:'pitlaneAlt',title:'gallery3',category:'paddock'},{src:'convoy',alt:'convoyAlt',title:'gallery4',category:'track'},{src:'hero',alt:'heroAlt',title:'gallery5',category:'track'},{src:'record',alt:'recordAlt',title:'eventGalleryRecord',category:'events'},{src:'circuits',alt:'eventGalleryCircuits',title:'eventGalleryCircuits',category:'events'},{src:'partners',alt:'eventGalleryPartners',title:'eventGalleryPartners',category:'events'},{src:'mini-track',ext:'webp',alt:'miniAlt',title:'miniAlt',category:'track'},{src:'lamborghini-paddock',ext:'webp',alt:'lamboAlt',title:'lamboAlt',category:'paddock'},{src:'porsche-track',ext:'webp',alt:'porscheTrackAlt',title:'porscheTrackAlt',category:'track'}];
 function updateCount(){const counter=$('#photo-count');if(counter)counter.textContent=String($$('.photo-card:not([hidden])').length).padStart(2,'0')+(language==='es'?' FOTOS':' PHOTOS');}
 function setLanguage(next){
-language=next;const t=translations[next];document.documentElement.lang=next;
-const names={home:t.homeNav,contact:t.navContact,news:'Breaking News',calendar:'Calendar',gallery:'Photo Galleries',championship:t.navChamp,partners:'Partners',article:'SEMA Show 2026'};
+next=next==='en'?'en':'es';language=next;const t=translations[next];document.documentElement.lang=next;
+document.querySelectorAll("[data-language-flag]").forEach(img=>{img.src=next==="es"?"assets/mexico.svg":"assets/uk.svg";img.alt=next==="es"?"Español":"English"});
+document.querySelectorAll("[data-language-name]").forEach(el=>{el.textContent=next==="es"?"ESPAÑOL":"ENGLISH"});
+const names={home:t.homeNav,contact:t.navContact,news:'Breaking News',calendar:'Calendar',gallery:'Photo Galleries',championship:t.navChamp,partners:'Partners',article:'SEMA Show 2026',baja:'SCORE Baja 1000 2026'};
 document.title=names[page]+' | Trackday VIP';
 $('meta[name="description"]').content=names[page]+(next==='es'?' — El mundo Trackday VIP Motorsport Series.':' — The world of Trackday VIP Motorsport Series.');
 $$('[data-t]').forEach(el=>{if(t[el.dataset.t])el.innerHTML=t[el.dataset.t]});
@@ -28,9 +30,9 @@ $$('[data-alt]').forEach(el=>{el.alt=t[el.dataset.alt]});
 $$('[data-lang]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.lang===next)));
 if($('#article-content'))$('#article-content').innerHTML=article[next];
 $$('[data-contact]').forEach(el=>{const platform=el.dataset.contact;el.setAttribute('aria-label',platform==='instagram'?'Instagram @trackday.vip':platform==='email'?'Email direcciongral@trackdayvip.com':'WhatsApp +52 443 945 7617')});
-updateCount();if($('#photo-dialog').open)renderPhoto();if($('#detail-dialog').open)renderDetail();updateContactContext();normalizeArrows();
+updateCount();if($('#photo-dialog')?.open)renderPhoto();if($('#detail-dialog')?.open)renderDetail();updateContactContext();normalizeArrows();
 }
-$$('[data-lang]').forEach(button=>button.addEventListener('click',()=>{setLanguage(button.dataset.lang);try{localStorage.setItem('trackday-language',language)}catch{}}));
+document.addEventListener('click',event=>{const button=event.target.closest?.('button[data-lang]');if(!button)return;event.preventDefault();setLanguage(button.dataset.lang);try{localStorage.setItem('trackday-language',language)}catch{}});
 let saved;try{saved=localStorage.getItem('trackday-language')}catch{}setLanguage(saved==='en'?'en':'es');
 $('#year').textContent=new Date().getFullYear();
 const menuToggle=$('.menu-toggle');
