@@ -22,7 +22,7 @@ function setLanguage(next){
 next=next==='en'?'en':'es';language=next;const t=translations[next];document.documentElement.lang=next;
 document.querySelectorAll("[data-language-flag]").forEach(img=>{img.src=next==="es"?"assets/mexico.svg":"assets/uk.svg";img.alt=next==="es"?"Español":"English"});
 document.querySelectorAll("[data-language-name]").forEach(el=>{el.textContent=next==="es"?"ESPAÑOL":"ENGLISH"});
-const names={home:t.homeNav,about:t.navAbout,contact:t.navContact,news:'Breaking News',calendar:'Calendar',gallery:'Photo Galleries',championship:t.navChamp,partners:'Partners',article:'SEMA Show 2026',baja:'SCORE Baja 1000 2026'};
+const names={leonevent:t.leonTitle,home:t.homeNav,about:t.navAbout,contact:t.navContact,news:'Breaking News',calendar:'Calendar',gallery:'Photo Galleries',championship:t.navChamp,partners:'Partners',article:'SEMA Show 2026',baja:'SCORE Baja 1000 2026'};
 document.title=names[page]+' | Trackday VIP';
 $('meta[name="description"]').content=names[page]+(next==='es'?' — El mundo Trackday VIP Motorsport Series.':' — The world of Trackday VIP Motorsport Series.');
 $$('[data-t]').forEach(el=>{if(t[el.dataset.t])el.innerHTML=t[el.dataset.t]});
