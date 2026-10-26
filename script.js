@@ -13,7 +13,7 @@ function normalizeArrows(root=document.body){
  }
 }
 
-let language='es',filter='all',photoIndex=0,lastFocus=null,detailType=null;
+let language='es',filter='all',photoIndex=0,lastFocus=null,detailType=null,linkedPhotos=null;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const page=document.body.dataset.page;
 const photos=[{src:'grid',alt:'gridAlt',title:'gallery1',category:'paddock'},{src:'porsche',alt:'porscheAlt',title:'gallery2',category:'track'},{src:'pitlane',alt:'pitlaneAlt',title:'gallery3',category:'paddock'},{src:'convoy',alt:'convoyAlt',title:'gallery4',category:'track'},{src:'hero',alt:'heroAlt',title:'gallery5',category:'track'},{src:'record',alt:'recordAlt',title:'eventGalleryRecord',category:'events'},{src:'circuits',alt:'eventGalleryCircuits',title:'eventGalleryCircuits',category:'events'},{src:'partners',alt:'eventGalleryPartners',title:'eventGalleryPartners',category:'events'},{src:'mini-track',ext:'webp',alt:'miniAlt',title:'miniAlt',category:'track'},{src:'lamborghini-paddock',ext:'webp',alt:'lamboAlt',title:'lamboAlt',category:'paddock'},{src:'porsche-track',ext:'webp',alt:'porscheTrackAlt',title:'porscheTrackAlt',category:'track'},{src:'trackday-red-racer',alt:'redRacerAlt',title:'redRacerTitle',category:'track'}];
@@ -50,10 +50,10 @@ dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close(
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
 dialog.addEventListener('close',()=>{document.body.classList.remove('no-scroll');if(lastFocus)lastFocus.focus()});
 });
-function visiblePhotos(){return photos.map((p,i)=>i).filter(i=>filter==='all'||photos[i].category===filter)}
-function renderPhoto(){const p=photos[photoIndex],t=translations[language];$('#viewer-image').src='assets/'+p.src+'.'+(p.ext||'webp');$('#viewer-image').alt=t[p.alt];$('#viewer-caption').textContent=t[p.title];const visible=visiblePhotos();$('#viewer-count').textContent=String(visible.indexOf(photoIndex)+1).padStart(2,'0')+' / '+String(visible.length).padStart(2,'0')}
+function visiblePhotos(){if(linkedPhotos)return linkedPhotos.map((p,i)=>i);return photos.map((p,i)=>i).filter(i=>filter==='all'||photos[i].category===filter)}
+function renderPhoto(){if(linkedPhotos){const p=linkedPhotos[photoIndex];$('#viewer-image').src=p.src;$('#viewer-image').alt=p.caption;$('#viewer-caption').textContent=p.caption;$('#viewer-count').textContent=String(photoIndex+1).padStart(2,'0')+' / '+String(linkedPhotos.length).padStart(2,'0');return;}const p=photos[photoIndex],t=translations[language];$('#viewer-image').src='assets/'+p.src+'.'+(p.ext||'webp');$('#viewer-image').alt=t[p.alt];$('#viewer-caption').textContent=t[p.title];const visible=visiblePhotos();$('#viewer-count').textContent=String(visible.indexOf(photoIndex)+1).padStart(2,'0')+' / '+String(visible.length).padStart(2,'0')}
 function photoMove(dir){const visible=visiblePhotos();photoIndex=visible[(visible.indexOf(photoIndex)+dir+visible.length)%visible.length];renderPhoto()}
-$$('[data-photo]').forEach(card=>card.addEventListener('click',()=>{photoIndex=Number(card.dataset.photo);renderPhoto();openDialog($('#photo-dialog'))}));
+$$('[data-photo]').forEach(card=>card.addEventListener('click',()=>{linkedPhotos=null;photoIndex=Number(card.dataset.photo);renderPhoto();openDialog($('#photo-dialog'))}));
 $('#viewer-prev').addEventListener('click',()=>photoMove(-1));$('#viewer-next').addEventListener('click',()=>photoMove(1));
 $('#photo-dialog').addEventListener('keydown',e=>{if(e.key==='ArrowLeft')photoMove(-1);if(e.key==='ArrowRight')photoMove(1)});
 let touchStart=null;$('#viewer-image').addEventListener('touchstart',e=>{touchStart=e.changedTouches[0].clientX},{passive:true});$('#viewer-image').addEventListener('touchend',e=>{if(touchStart===null)return;const dx=e.changedTouches[0].clientX-touchStart;if(Math.abs(dx)>50)photoMove(dx<0?1:-1);touchStart=null},{passive:true});
@@ -79,3 +79,6 @@ function updateContactContext(){
  $('[data-channel="whatsapp"]').href='https://wa.me/524439457617?text='+encodeURIComponent(message);
  $('[data-channel="email"]').href='mailto:direcciongral@trackdayvip.com?subject='+encodeURIComponent('Trackday VIP | '+(topicName||t.navContact));
 }
+
+// Open full-size artwork inside the existing gallery dialog.
+document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link||! /\.(webp|png|jpe?g)(?:[?#]|$)/i.test(link.getAttribute('href')))return;event.preventDefault();const links=[...document.querySelectorAll('main a[href]')].filter(a=>/\.(webp|png|jpe?g)(?:[?#]|$)/i.test(a.getAttribute('href')));const unique=[...new Map(links.map(a=>[a.href,a])).values()];linkedPhotos=unique.map(a=>({src:a.href,caption:a.querySelector('img')?.alt||a.closest('figure')?.querySelector('figcaption span')?.textContent||'Trackday VIP'}));photoIndex=linkedPhotos.findIndex(p=>p.src===link.href);if(photoIndex<0){linkedPhotos=[{src:link.href,caption:link.querySelector('img')?.alt||'Trackday VIP'}];photoIndex=0;}renderPhoto();openDialog($('#photo-dialog'));});
